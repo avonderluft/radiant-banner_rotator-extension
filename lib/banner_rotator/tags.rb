@@ -42,6 +42,13 @@ module BannerRotator::Tags
     tag "banner:if_#{att}" do |tag|
       tag.expand unless tag.locals.banner[att].blank?
     end
+    tag "banner:content" do |tag|
+      if tag.locals.banner['background_image'] =~ /swf/i
+        "<a href=\"#{tag.locals.banner['link_url']}\" target=\"#{tag.locals.banner['link_target']}\"><object class=\"banner\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"160\" height=\"140\" bgcolor=\"#f0f7fd\"><param name=\"movie\" value=\"#{tag.locals.banner['background_image']}\"><param name=\"quality\" value=\"high\"><embed src=\"#{tag.locals.banner['background_image']}\" quality=\"high\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\" type=\"application/x-shockwave-flash\" width=\"160\" height=\"140\" bgcolor=\"#f0f7fd\"></embed></object></a>"
+      else
+        "<a href=\"#{tag.locals.banner['link_url']}\" target=\"#{tag.locals.banner['link_target']}\"><img src=\"#{tag.locals.banner['background_image']}\" /></a>"
+      end
+    end
     desc %{
       Expands the contents if there is no #{att}.
 
