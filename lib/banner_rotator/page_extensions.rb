@@ -18,10 +18,15 @@ module BannerRotator
     end
     
     def select_banner
-      banners_with_weighting = banner_placements.map do |p|
+      @banners_with_weighting ||= banner_placements.map do |p|
         [p.banner] * p.weight
       end.flatten
-      banners_with_weighting[rand(banners_with_weighting.size)]
+      
+      x = rand(@banners_with_weighting.size)
+      banner = @banners_with_weighting[x]
+      @banners_with_weighting.delete(x+1)
+      
+      banner
     end
   end
 end
