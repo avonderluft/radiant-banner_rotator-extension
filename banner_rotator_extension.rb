@@ -23,7 +23,7 @@ class BannerRotatorExtension < Radiant::Extension
   end
   
   def deactivate
-    admin.tabs.remove "Banners"
+    # admin.tabs.remove "Banners"
   end
   
   def load_default_banner_regions

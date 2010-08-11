@@ -17,7 +17,7 @@ module BannerRotator::Tags
     tag.expand if tag.locals.banner && page.show_banner?
   end
 
-  %w{name background_image foreground_image link_url link_target image_style}.each do |att|
+  %w{name background_image foreground_image link_url link_target image_style description}.each do |att|
     desc %{
       Outputs the #{att} attribute of the current banner.
 
