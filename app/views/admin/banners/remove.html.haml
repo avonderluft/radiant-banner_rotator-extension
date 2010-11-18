@@ -1,6 +1,6 @@
 - if @banner.is_protected?
   %meta{'http-equiv' => 'refresh', :content => "0;URL=#{admin_banners_url}"}
-  - flash[:error] = "Foot-shooting protection enabled:  The #{@banner.name} banner is protected. Please contact a site administrator if it needs to be deleted."
+  - flash[:error] = "Foot-shooting protection enabled:  The #{@banner.name} banner cannot be removed. Contact a site administrator if you have questions."
 
 - else
 

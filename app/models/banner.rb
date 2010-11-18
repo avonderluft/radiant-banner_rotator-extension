@@ -20,11 +20,15 @@ class Banner < ActiveRecord::Base
   end
   
   def is_protected?
-    protected_banners = []
-    if Radiant::Config['admin.protected_banners']
-      protected_banners = Radiant::Config['admin.protected_banners'].split(',').map { |b| b.downcase.strip }
+    if name.downcase.include?('protected')
+      true
+    else
+      protected_banners = []
+      if Radiant::Config['admin.protected_banners']
+        protected_banners = Radiant::Config['admin.protected_banners'].split(',').map { |b| b.downcase.strip }
+      end
+      protected_banners.include?(name.downcase)
     end
-    protected_banners.include?(name.downcase)
   end
 
   def self.find_all_by_pages
