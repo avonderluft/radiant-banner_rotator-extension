@@ -1,9 +1,9 @@
-%h1 Remove Banner
+%h1 Deactivate Banner
 
 %p
   Are you sure you want to
-  %strong.warning permanently remove
-  the following banner?
+  %strong.warning remove
+  the following banner from all pages?
 
 %table
   %tr
@@ -13,9 +13,9 @@
         - unless @banner.foreground_image.blank?
           %img{:src => @banner.foreground_image, :alt => "Preview"}/
 
-- form_for [:admin, @banner], :html => {:method => :delete} do
+- form_for :admin, @banner, :html => {:action => :deactivate} do
   %p.buttons
-    %input.button{:type=>"submit", :value=>"Delete Banner"}/
+    %input.button{:type=>"submit", :value=>"Deactivate Banner"}/
     or
     = link_to 'Cancel', admin_banners_url
 

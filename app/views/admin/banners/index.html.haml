@@ -43,7 +43,7 @@
               =link_to banner.name, edit_admin_banner_path(banner), :title => "Edit #{banner.name} banner"
               .remove
                 - if banner.active?
-                  =link_to 'Deactivate', deactivate_admin_banner_path(banner), :title => "Deactivate #{banner.name} banner (remove from all pages)", :class => 'deactivate-link', :method => :post, :confirm => "Please confirm that you want to deactivate the \"#{banner.name}\" banner, i.e. remove it from all pages?"
+                  =link_to 'Deactivate', deactivate_admin_banner_url(banner), :class => 'deactivate-link'
                 %br
                 =link_to image('remove', :alt => "Delete #{banner.name} banner", :title => "Delete #{banner.name} banner" ), remove_admin_banner_url(banner), :class => 'remove-link'
 

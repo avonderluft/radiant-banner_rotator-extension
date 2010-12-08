@@ -26,6 +26,7 @@ describe "BannerRotator::Tags" do
   describe "<r:banner> selection and inheritance" do
     before :each do
       Page.update_all({:show_banner => true })
+      banners(:protected).remove_all_placements!  #deal with only 1 active banner for predictable results
     end
 
     it "should select a random banner from the associated banners" do
@@ -40,6 +41,7 @@ describe "BannerRotator::Tags" do
   describe "banner attributes, if_ and unless_ tags" do
     before :each do
       Page.update_all({:show_banner => true })
+      banners(:protected).remove_all_placements!  #deal with only 1 active banner for predictable results
     end
     %w{name background_image foreground_image link_url link_target image_style}.each do |att|
       describe "<r:banner:#{att}>" do

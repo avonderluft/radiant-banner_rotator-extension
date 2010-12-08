@@ -7,6 +7,13 @@ class Banner < ActiveRecord::Base
   attr_writer :placements
   after_save :create_placements
 
+  %w(removed deactivated).each do |action|
+    method_name = "cannot_be_#{action}_msg".to_sym
+    send :define_method, method_name do
+      "Foot-shooting protection enabled:  The #{name} banner cannot be #{action}. Contact a site administrator if you have questions."
+    end
+  end
+
   def placements
     @placements || banner_placements
   end
@@ -19,7 +26,7 @@ class Banner < ActiveRecord::Base
     ! active?
   end
   
-  def is_protected?
+  def protected?
     if name.downcase.include?('protected')
       true
     else
@@ -29,6 +36,10 @@ class Banner < ActiveRecord::Base
       end
       protected_banners.include?(name.downcase)
     end
+  end
+
+  def unprotected?
+    ! protected?
   end
 
   def self.find_all_by_pages

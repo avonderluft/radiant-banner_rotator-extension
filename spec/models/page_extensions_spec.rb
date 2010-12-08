@@ -6,16 +6,16 @@ describe "BannerRotator::PageExtensions" do
   it "should have some banner and banner placements" do
     pages(:home).should respond_to(:banners)
     pages(:home).should respond_to(:banner_placements)
-    pages(:home).should have(1).banners
+    pages(:home).should have(2).banners
   end
   
   it "should select a banner" do
-    pages(:home).select_banner.should == banners(:first)
+    [ banners(:first), banners(:protected) ].should include(pages(:home).select_banner)
   end
   
   it "should inherit banners from its ancestors" do
     pages(:article).banner_placements.should == pages(:home).banner_placements
-    pages(:article).select_banner.should == banners(:first)
+    [ banners(:first), banners(:protected) ].should include(pages(:article).select_banner)
   end
   
   it "should not delete its parent's banner placements when destroyed" do

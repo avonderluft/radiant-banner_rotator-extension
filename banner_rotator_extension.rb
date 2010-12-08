@@ -6,7 +6,7 @@ class BannerRotatorExtension < Radiant::Extension
 
   define_routes do |map|
     map.namespace :admin do |admin|
-      admin.resources :banners,  :member => { :remove => :get, :deactivate => :post } 
+      admin.resources :banners,  :member => { :remove => :get, :deactivate => :any }
     end
   end
 
@@ -22,11 +22,11 @@ class BannerRotatorExtension < Radiant::Extension
     end
     admin.banner = load_default_banner_regions
   end
-  
+
   def deactivate
     # admin.tabs.remove "Banners"
   end
-  
+
   def load_default_banner_regions
     returning OpenStruct.new do |banner|
       banner.index = Radiant::AdminUI::RegionSet.new do |index|

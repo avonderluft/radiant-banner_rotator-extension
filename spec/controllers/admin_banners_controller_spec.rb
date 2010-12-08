@@ -1,13 +1,14 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/../spec_helper'
 require_dependency 'admin/banners_controller'
 class Admin::BannersController < Admin::ResourceController; def rescue_action(e); raise e; end end
 
 describe Admin::BannersController do
   # Uses Admin::ResourceController, built into Radiant
   dataset :users, :banners
-  
+
   before :each do
     @banner = banners(:first)
+    @count = Banner.count
     login_as :admin
   end
 
@@ -21,6 +22,92 @@ describe Admin::BannersController do
     lambda { put :update, :id => 1 }.should     require_login
     lambda { get :remove, :id => 1 }.should     require_login
     lambda { delete :destroy, :id => 1 }.should require_login
+    lambda { post :deactivate, :id => 1 }.should require_login
+  end
+  
+  it "'create' should add 1 banner and redirect to index" do
+    post :create, :banner => min_valid_banner_params
+    Banner.count.should == @count + 1
+    response.should be_redirect
+    response.should redirect_to(admin_banners_path)
+  end
+
+  it "'update' should redirect to index" do
+    put :update, :id => @banner.id
+    Banner.count.should == @count
+    response.should be_redirect
+    response.should redirect_to(admin_banners_path)
+  end
+  
+  it "'deactivate' should remove all banner placements and redirect to index" do
+    @banner.active?.should be_true
+    post :deactivate, :id => @banner.id
+    @banner.inactive?.should be_true
+    Banner.count.should == @count
+    response.should be_redirect
+    response.should redirect_to(admin_banners_path)
+    flash[:notice].should include("Banner \"#{@banner.name}\" has been deactivated.") 
+  end
+  
+  it "'delete' should remove 1 banner and redirect to index" do
+    delete :destroy, :id => @banner.id
+    Banner.count.should == @count - 1
+    response.should be_redirect
+    response.should redirect_to(admin_banners_path)
+    flash[:notice].should include("Banner has been deleted.")
+  end
+  
+  describe "protected banners" do
+
+    def protected_banner_behavior_on_deactivate
+      response.should be_redirect
+      response.should redirect_to(admin_banners_path)
+      flash[:error].should == @banner.cannot_be_deactivated_msg
+      @banner.active?.should be_true
+      @banner.protected?.should be_true
+    end
+    
+    def protected_banner_behavior_on_remove
+      response.should be_redirect
+      response.should redirect_to(admin_banners_path)
+      flash[:error].should == @banner.cannot_be_removed_msg
+      Banner.count.should == @count
+    end
+    
+    def protected_from_removal_tests
+      get :remove, :id => @banner.id
+      protected_banner_behavior_on_remove
+      delete :destroy, :id => @banner.id
+      protected_banner_behavior_on_remove
+    end
+    
+    def protected_from_deactivation_tests
+      get :deactivate, :id => @banner.id
+      protected_banner_behavior_on_deactivate
+      post :deactivate, :id => @banner.id
+      protected_banner_behavior_on_deactivate
+    end
+
+    it "should protect banners with 'protected' in the banner name from removal" do
+      @banner = banners(:protected)
+      protected_from_removal_tests
+    end
+    
+    it "should protect banners with 'protected' in the banner name from deactivation" do
+      @banner = banners(:protected)
+      protected_from_deactivation_tests
+    end
+
+    it "should protect banners named in Radiant::Config['admin.protected_banners'] from removal" do
+      Radiant::Config['admin.protected_banners'] = @banner.name
+      protected_from_removal_tests
+    end
+    
+    it "should protect banners named in Radiant::Config['admin.protected_banners'] from deactivation" do
+      Radiant::Config['admin.protected_banners'] = @banner.name
+      protected_from_deactivation_tests
+    end
+  
   end
 
   [:admin, :developer].each do |user|
@@ -91,7 +178,7 @@ describe Admin::BannersController do
       def redirects_to_pages
         response.should be_redirect
         response.should redirect_to(admin_pages_path)
-        flash[:error].should == 'You must have developer privileges to perform this action.'
+        flash[:error].should == 'You do not have sufficient privileges to perform this action.'
       end
   
       it 'should not have access to the index action' do
@@ -126,22 +213,14 @@ describe Admin::BannersController do
         delete :destroy, :id => 1
       end
       
+      it 'should not have access to the deactivate action' do
+        post :deactivate, :id => 1
+      end
+      
       after :each do
         redirects_to_pages
       end
     end
-  end
-
-  it "should redirect to the index after creation" do
-    post :create, :banner => min_valid_banner_params
-    response.should be_redirect
-    response.should redirect_to(admin_banners_path)
-  end
-
-  it "should redirect to the index after update" do
-    put :update, :id => @banner.id
-    response.should be_redirect
-    response.should redirect_to(admin_banners_path)
   end
 
 end
