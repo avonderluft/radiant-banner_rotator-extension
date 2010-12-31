@@ -10,6 +10,7 @@ For the moment, use this fork of the banner rotator if you are on radiant 7.0
 
 h2. History
 
+* 2010-12-30 - 0.9 compatibility, blade UI, i18n
 * 2010-11-17 - enabled admin ability to protect certain banners from deletion, by adding comma-delimited banner names to Radiant::Config['admin.protected_banners']
 * 2009-06-22 - Deactivate banner functionality removes a banner from all pages
 * 2009-02-07 - 0.7 compatible
@@ -17,7 +18,8 @@ h2. History
 
 h2. To do
 
-* Update for 0.9.x compatibility
+* Add pagination to index
+* javascript image popup in index view
 * Make banners and banner placements draftable via the concurrent_draft extension
 
 h2. Contributors

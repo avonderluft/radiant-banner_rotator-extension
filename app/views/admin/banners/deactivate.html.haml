@@ -1,44 +1,12 @@
-%h1 Deactivate Banner
+%h1= t('deactivate_banner')
 
 %p
-  Are you sure you want to
-  %strong.warning remove
-  the following banner from all pages?
+  = t('text.banners.deactivate_warning')
 
-%table
-  %tr
-    %td.banner
-      .name= @banner.name
-      .snapshot{:style => "background: url(#{@banner.background_image}) center center no-repeat"}
-        - unless @banner.foreground_image.blank?
-          %img{:src => @banner.foreground_image, :alt => "Preview"}/
+= render :partial => 'modify_banner'
 
-- form_for :admin, @banner, :html => {:action => :deactivate} do
+- form_for [:admin, @banner], :html => {:action => :deactivate, 'data-onsubmit_status'=>"Deactivating banner&#8230;"} do
   %p.buttons
-    %input.button{:type=>"submit", :value=>"Deactivate Banner"}/
-    or
-    = link_to 'Cancel', admin_banners_url
-
-- content_for :page_css do
-  :sass
-    td.banner
-      &:hover
-        background-color: #ffc
-      .snapshot
-        background-color: white
-        width: 300px
-        height: 175px
-        overflow: hidden
-        border: 1px solid silver
-        margin: 0px 10px 0px 10px
-      .name, .modify
-        text-align: center
-        margin-top: 3px
-        margin-bottom: 3px
-        a, a:visited
-          color: black
-        a:hover
-          text-decoration: underline
-    a.add-link
-      padding-left: 16px
-      background: url(/images/admin/plus.png) left center no-repeat
+    %input.button{:type=>"submit", :value => t('deactivate_banner')}/
+    = t('or')
+    = link_to t('cancel'), admin_banners_url

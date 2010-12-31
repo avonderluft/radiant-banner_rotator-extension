@@ -1,13 +1,13 @@
 class Admin::BannersController < Admin::ResourceController
   model_class Banner
-
   # TODO: Find out why the banner_placements are only updated when one is added.
-
+  # Add pagination?
+  # paginate_models :per_page => 10
   login_required
   only_allow_access_to :index, :show, :new, :create, :edit, :update, :remove, :destroy, :deactivate, :remove_all_placements!,
-    :when => [:admin, :developer],
-    :denied_url => "/admin/pages",
-    :denied_message => 'You do not have sufficient privileges to perform this action.'
+    :when => [:designer, :admin],
+    :denied_url => { :controller => 'admin/pages', :action => 'index' },
+    :denied_message => 'You must have designer privileges to perform this action.'
 
   before_filter :check_cookie, :only => [:index]
   skip_after_filter :clear_model_cache, :only => [:destroy]
@@ -29,7 +29,6 @@ class Admin::BannersController < Admin::ResourceController
     case true
       when request.post? && @banner.unprotected?
         @banner.remove_all_placements!
-        flash[:notice] = "Banner \"#{@banner.name}\" has been deactivated. It has been removed from all pages."
         redirect_to admin_banners_url
       when @banner.protected?
         flash[:error] = @banner.cannot_be_deactivated_msg

@@ -1,13 +1,6 @@
 - include_javascript 'admin/tablekit'
 
-%h1 Banners
-
-#new=link_to 'New banner', new_admin_banner_url, :class => 'add-link'
-
-%ul#banner_view
-  %li#all_view= link_or_span_unless_current(params, "Show All (#{Banner.total_count})", admin_banners_path, :onclick => "Cookies.set('banner_view', 'all');", :param => 'view')
-  %li#active_view= link_or_span_unless_current(params, "Show Active Only (#{Banner.total_active_count})", admin_banners_path(:view => 'active'), :onclick => "Cookies.set('banner_view', 'active');", :param => 'view', :id => 'active')
-  %li#inactive_view= link_or_span_unless_current(params, "Show Inactive Only (#{Banner.total_inactive_count})", admin_banners_path(:view => 'inactive'), :onclick => "Cookies.set('banner_view', 'inactive');", :param => 'view', :id => 'inactive')
+- @page_title = t('banners') + ' - ' + default_page_title
 
 - case true
   - when params[:view] == 'active' && params[:sort] == 'page'
@@ -21,146 +14,107 @@
   - else
     - @banners = Banner.find(:all, :order => 'name asc')
 
-- unless params[:view] == 'inactive'
-  %h4#banner_sort Sort by:
-  %ul#banner_sort
-    %li#name_sort= link_or_span_unless_current(params, "Banner Name", admin_banners_path, :onclick => "Cookies.set('banner_sort', 'name');", :param => 'sort', :id => 'name')
-    %li#page_sort= link_or_span_unless_current(params, "Assigned Pages", admin_banners_path(:sort => 'page'), :onclick => "Cookies.set('banner_sort', 'page');", :param => 'sort', :id => 'page')
-
-#top=render_region :top 
-
-- if @banners.blank?
-  %p{:style => 'text-align: center'}
-    %em= "There are no #{params[:view]} banners defined."
-- else
-  %table{:style => 'margin-top: 24px'}
-    - @banners.in_groups_of(3).each do |row|
+.outset
+  = render_region :top
+  .banner_selectors
+    %ul#banner_view
+      %li#all_view= link_or_span_unless_current(params, "#{t('show_all')} (#{Banner.total_count})", admin_banners_path, :onclick => "Cookies.set('banner_view', 'all');", :param => 'view')
+      %li#active_view= link_or_span_unless_current(params, "#{t('show_active_only')} (#{Banner.total_active_count})", admin_banners_path(:view => 'active'), :onclick => "Cookies.set('banner_view', 'active');", :param => 'view', :id => 'active')
+      %li#inactive_view= link_or_span_unless_current(params, "#{t('show_inactive_only')} (#{Banner.total_inactive_count})", admin_banners_path(:view => 'inactive'), :onclick => "Cookies.set('banner_view', 'inactive');", :param => 'view', :id => 'inactive')
+    - unless params[:view] == 'inactive'
+      %ul#banner_sort
+        %li.label= t('sort_by') + ":"
+        %li#name_sort= link_or_span_unless_current(params, t('banner_name'), admin_banners_path, :onclick => "Cookies.set('banner_sort', 'name');", :param => 'sort', :id => 'name')
+        %li#page_sort= link_or_span_unless_current(params, t('assigned_pages'), admin_banners_path(:sort => 'page'), :onclick => "Cookies.set('banner_sort', 'page');", :param => 'sort', :id => 'page')
+  %table.index#banners
+    %thead
       %tr
-        - row.compact.each do |banner|
-          %td.banner
-            %br
-            .modify
-              =link_to banner.name, edit_admin_banner_path(banner), :title => "Edit #{banner.name} banner"
-              .remove
-                - if banner.active?
-                  =link_to 'Deactivate', deactivate_admin_banner_url(banner), :class => 'deactivate-link'
-                %br
-                =link_to image('remove', :alt => "Delete #{banner.name} banner", :title => "Delete #{banner.name} banner" ), remove_admin_banner_url(banner), :class => 'remove-link'
+        - render_region :thead do |thead|
+          - thead.title_header do
+            %th.banner{:colspan => 2}= t('banner')
+          - thead.pages_header do
+            %th.pages= t('assigned_pages')
+          - thead.actions_header do
+            %th.actions{:style=>"width:9em"}= t('modify')
+    %tbody
+      - if @banners.any?
+        - @banners.each do |banner|
+          %tr[banner]
+            - render_region :tbody, :locals => {:banner => banner} do |tbody|
+              - tbody.title_cell do
+                %td.preview
+                  %a{:href => edit_admin_banner_url(banner)}
+                    %img.snapshot{:src => banner.background_image, :alt => "#{banner.name} #{t('banner')}", :title => "#{t('edit')} #{banner.name} #{t('banner')}"}
+                %td.name
+                  = link_to banner.name, edit_admin_banner_url(banner)
+              - tbody.pages_cell do
+                %td.pages
+                  - unless banner.pages.blank?
+                    - banner.pages.each do |page|
+                      %a{:href => edit_admin_page_url(page), :title => "#{t('edit')} #{page.title} #{t('page')}"}= page.breadcrumb
+                      &nbsp;
+                  - else
+                    (none)
+              - tbody.actions_cell do
+                %td.actions
+                  = link_to image('minus') + ' ' + t('remove'), remove_admin_banner_url(banner), :class => "action"
+                  - if banner.active?
+                    =link_to image('deactivate') + ' ' + t('deactivate'), deactivate_admin_banner_url(banner), :class => 'action'
+      - else
+        %tr
+          %td.empty{:colspan => admin.banner.index.tbody.length}= "There are no #{params[:view]} banners defined."
 
-            %a{:href => edit_admin_banner_path(banner)}
-              .snapshot{:style => "background: url(#{banner.background_image}) center center no-repeat"}
-                - unless banner.foreground_image.blank?
-                  %img{:src => banner.foreground_image, :alt => "Preview"}/
+- render_region :bottom do |bottom|
+  - bottom.new_button do
+    #actions
+      = pagination_for(@banners)
+      %ul
+        %li= link_to image('plus') + " " + t('new_banner'), new_admin_banner_url
 
-            .pages
-              On Pages:
-              - unless banner.pages.blank?
-                - banner.pages.each do |page|
-                  &nbsp;
-                  %a{:href => edit_admin_page_url(page), :title => "Edit #{page.title} page"}= page.breadcrumb
-              - else
-                (none)
-            %p
-
-= render_region :bottom
-            
 - content_for :page_css do
   :sass
-    td.banner
-      &:hover
-        background-color: #ffc
-      .snapshot
-        background-color: white
-        width: 300px
-        height: 175px
-        overflow: hidden
-        border: 1px solid silver
-        margin: 0 10px 0 10px
-      .name, .modify, .pages
-        text-align: left
-        margin: 3px 0 3px 16px
-      .pages
-        max-width: 300px
-      .remove
-        text-align: right
-        margin-top: -32px
+    .banner_selectors
+      margin: 13px 0 0 0
+      height: 17px
+    table.index#banners
+      td
+        .snapshot
+          height: 40px
+          max-width: 320px
+          border: 1px solid d5f0ff
+    .banner_selectors
+      ul
+        list-style: none
+        li
+          display: inline
+          margin: 0 4px 0 0
         a, a:visited
           color: black
-
-    a.add-link
-      padding-left: 16px
-      background: url(/images/admin/plus.png) left center no-repeat
-
-    a.deactivate-link
-      padding: 3px 12px 2px 19px
-      margin: 0 0 0 0
-      background: url(/images/admin/layout_delete.png) 0 0 no-repeat
-      font-size: 10px
-      text-decoration: none
-
-    a.remove-link
-      padding: 2px 12px 2px 19px
-      margin: 0 0 0 0
-
-    #banner_view
+        a:hover
+          background-color: #e5f5ff
+        span
+          border: 1px solid #d5f0ff
+          background-color: #c5dff5
+    #banner_view, #new
       float: left
-      list-style: none
-      margin: -42px 0 0 126px
-      padding: 0
-      li
-        display: inline
-        margin: 0 5px 0 0
-      a, a:visited
-        color: black
-      span
-        border: 1px solid #ffa
-        background-color: #ffd
-    #all_view
-      a, span
-        padding: 5px 5px 5px 25px
-        background-image: url(/images/admin/pictures.png)
-        background-position: 5px center
-        background-repeat: no-repeat
-    #active_view
-      a, span
-        padding: 5px 5px 5px 25px
-        background-image: url(/images/admin/pictures.png)
-        background-position: 5px center
-        background-repeat: no-repeat
-    #inactive_view
-      a, span
-        padding: 5px 5px 5px 25px
-        background-image: url(/images/admin/pictures.png)
-        background-position: 5px center
-        background-repeat: no-repeat
-
+      margin: -5px 0 0 10px
     #banner_sort
-      float: left
-      list-style: none
-      margin: -42px 0 0 650px
-      padding: 0
-      li
-        margin: 0px 4px 5px 60px
-      a, a:visited
-        color: black
-      span
-        border: 1px solid #ffa
-        background-color: #ffd
-    #name_sort
+      float: right
+      margin: -5px 10px 0 0
+    li
       a, span
-        padding: 2px 2px 2px 25px
-        background-image: url(/images/admin/text_list_numbers.png)
+        padding: 5px 5px 5px 25px
         background-position: 5px center
         background-repeat: no-repeat
-    #page_sort
+    li.label
+      font-weight: bold
+      font-size: 14px
+    #all_view, #active_view, #inactive_view
       a, span
-        padding: 2px 2px 2px 25px
+        background-image: url(/images/admin/pictures.png)
+    #name_sort, #page_sort
+      a, span
         background-image: url(/images/admin/text_list_numbers.png)
-        background-position: 5px center
-        background-repeat: no-repeat
-    #new
-      float: left
-      margin: 0 0 0 0
     #top
       margin: 70px 0 0 0
 

@@ -1,2 +1,7 @@
-%h1 New Banner
-= render :partial => 'form'
+- render_region :main do |main|
+  - main.edit_header do
+    %h1= t('new_banner')
+  - main.edit_form do
+    = render :partial => 'form'
+
+- content_for 'page_scripts', banner_edit_javascripts

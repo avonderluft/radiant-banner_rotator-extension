@@ -1,2 +1,10 @@
-%h1 Edit Banner
-= render :partial => 'form'
+- @page_title = @banner.name + ' ' + t('banner') + ' - ' + default_page_title
+
+- render_region :main do |main|
+  - main.edit_header do
+    %h1= t('edit_banner')
+  - main.edit_form do
+    = render :partial => 'form'
+    = render :partial => 'modify_banner'
+
+- content_for 'page_scripts', banner_edit_javascripts

@@ -1,0 +1,26 @@
+---
+en:
+  add_page: "Add Page"
+  assigned_pages: "Assigned Pages"
+  background_image: "Background Image"
+  banner: "Banner"
+  banner_name: "Banner Name"
+  banners: "Banners"
+  deactivate: "Deactivate"
+  deactivate_banner: "Deactivate Banner"
+  delete_banner: "Delete Banner"
+  edit_banner: "Edit Banner"
+  foreground_image: "Foreground Image"
+  image_style: "Image Style (CSS)"
+  link_url: "Link URL"
+  new_banner: "New Banner"
+  remove_banner: "Remove Banner"
+  show_active_only: "Show Active Only"
+  show_inactive_only: "Show Inactive Only"
+  sort_by: "Sort By"
+  text:
+    banners:
+      deactivate_warning: 'Are you sure you want to <strong class="warning">deactivate</strong> the following banner, which will not delete it, but will remove it from all pages?'
+      remove_warning: 'Are you sure you want to <strong class="warning">permanently remove</strong> the following banner?'
+      target_instruction: "(use '_top' for same window, or '_blank' for new window)"
+  target: "Target window"

@@ -9,7 +9,7 @@ describe Admin::BannersController do
   before :each do
     @banner = banners(:first)
     @count = Banner.count
-    login_as :admin
+    login_as(:admin)
   end
 
   it "should require login" do
@@ -46,7 +46,8 @@ describe Admin::BannersController do
     Banner.count.should == @count
     response.should be_redirect
     response.should redirect_to(admin_banners_path)
-    flash[:notice].should include("Banner \"#{@banner.name}\" has been deactivated.") 
+    # flash notices are largely deprecated in as of 0.9
+    # flash[:notice].should include("Banner \"#{@banner.name}\" has been deactivated.") 
   end
   
   it "'delete' should remove 1 banner and redirect to index" do
@@ -54,7 +55,8 @@ describe Admin::BannersController do
     Banner.count.should == @count - 1
     response.should be_redirect
     response.should redirect_to(admin_banners_path)
-    flash[:notice].should include("Banner has been deleted.")
+    # flash notices are largely deprecated in as of 0.9
+    # flash[:notice].should include("Banner has been deleted.")
   end
   
   describe "protected banners" do
@@ -99,18 +101,20 @@ describe Admin::BannersController do
     end
 
     it "should protect banners named in Radiant::Config['admin.protected_banners'] from removal" do
+      @banner = banners(:child_2_1)
       Radiant::Config['admin.protected_banners'] = @banner.name
       protected_from_removal_tests
     end
     
     it "should protect banners named in Radiant::Config['admin.protected_banners'] from deactivation" do
+      @banner = banners(:child_2_1)
       Radiant::Config['admin.protected_banners'] = @banner.name
       protected_from_deactivation_tests
     end
   
   end
 
-  [:admin, :developer].each do |user|
+  [:admin, :designer].each do |user|
     describe "#{user} user" do
       before :each do
         @banner = Banner.find(:first)
@@ -119,7 +123,7 @@ describe Admin::BannersController do
 
       def redirects_to_index
         response.should be_redirect
-        response.should redirect_to(admin_banners_path)
+        response.should redirect_to(admin_banners_url)
       end
 
       it 'should have access to the index action' do
@@ -128,8 +132,9 @@ describe Admin::BannersController do
       end
       
       it 'should have access to the show action' do
-        get :show, :id => 1
-        response.should be_success
+        get :show, :id => @banner.id
+        response.should be_redirect
+        response.should redirect_to(edit_admin_banner_url(@banner))
       end
       
       it 'should have access to the new action' do
@@ -178,7 +183,7 @@ describe Admin::BannersController do
       def redirects_to_pages
         response.should be_redirect
         response.should redirect_to(admin_pages_path)
-        flash[:error].should == 'You do not have sufficient privileges to perform this action.'
+        flash[:error].should == 'You must have designer privileges to perform this action.'
       end
   
       it 'should not have access to the index action' do

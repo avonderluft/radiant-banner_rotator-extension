@@ -10,7 +10,7 @@ class Banner < ActiveRecord::Base
   %w(removed deactivated).each do |action|
     method_name = "cannot_be_#{action}_msg".to_sym
     send :define_method, method_name do
-      "Foot-shooting protection enabled:  The #{name} banner cannot be #{action}. Contact a site administrator if you have questions."
+      "Foot-shooting protection enabled:  The '#{name}' banner cannot be #{action}. Contact a site administrator if you have questions."
     end
   end
 

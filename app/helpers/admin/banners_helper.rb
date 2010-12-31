@@ -43,4 +43,10 @@ module Admin::BannersHelper
     end
   end
 
+  def banner_edit_javascripts
+    <<-CODE
+
+    CODE
+  end
+
 end
