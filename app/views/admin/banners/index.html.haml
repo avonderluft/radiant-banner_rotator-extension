@@ -62,7 +62,7 @@
                     =link_to image('deactivate') + ' ' + t('deactivate'), deactivate_admin_banner_url(banner), :class => 'action'
       - else
         %tr
-          %td.empty{:colspan => admin.banner.index.tbody.length}= "There are no #{params[:view]} banners defined."
+          %td.empty{:colspan => admin.banner.index.tbody.length + 1}= t('no_banners')
 
 - render_region :bottom do |bottom|
   - bottom.new_button do
