@@ -45,7 +45,17 @@ module Admin::BannersHelper
 
   def banner_edit_javascripts
     <<-CODE
-
+      var AddSelector = Behavior.create({
+        initialize: function(type){
+          this.template = $(type + '_select_template');
+        },
+        onclick: function(event) {
+          event.stop();
+          var newField = new Element("p").update(this.template.innerHTML);
+          this.element.up("div").insert(newField);
+        }
+      });
+      Event.addBehavior({ '#add-page-link': AddSelector('placement')});
     CODE
   end
 

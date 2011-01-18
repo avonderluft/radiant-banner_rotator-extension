@@ -10,7 +10,7 @@ class BannerRotatorExtension < Radiant::Extension
     tab "Content" do
       add_item "Banners", '/admin/banners', :after => "Pages"
     end
-    admin.pages.edit.add :extended_metadata, 'show_banner_meta'
+    admin.pages.edit.add :extended_metadata, 'show_banner_meta', :before => 'published_date'
     
     Radiant::AdminUI.class_eval do
       attr_accessor :banner

@@ -1,18 +1,6 @@
 - include_javascript 'lowpro'
 
-- content_for :page_scripts do
-  :plain
-    var AddSelector = Behavior.create({
-      initialize: function(type){
-        this.template = $(type + '_select_template');
-      },
-      onclick: function(event) {
-        event.stop();
-        var newField = new Element("p").update(this.template.innerHTML);
-        this.element.up("div").insert(newField);
-      }
-    });
-    Event.addBehavior({ '#add-page-link': AddSelector('placement')});
+- content_for :page_scripts, banner_edit_javascripts
 
 %p#placement_select_template{:style => 'display:none'}
   = select_tag "banner[placements][][page_id]", options_for_select(pages_for_select)
