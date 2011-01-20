@@ -1,8 +1,11 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Banner do
+
+  dataset :banners
+
   before(:each) do
-    @banner = Banner.new :name => "Test Banner", :background_image => "image.png"
+    @banner = banners(:first)
   end
 
   it "should require a name" do
@@ -40,6 +43,5 @@ describe Banner do
       @banner.should have(0).banner_placements
     end
   end
-  
 
 end

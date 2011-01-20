@@ -1,0 +1,18 @@
+- assigned = page.show_banner? ? page.banner_placements.map{|p| p.banner.name}.sort.join(' * ') : t('no_banners')
+- assigned = "INHERITED: #{assigned}" if page.banners_inherited?
+%td.status{:title => assigned, :style => "text-align:center"}
+  - if page.show_banner?
+    - if page.banners_inherited?
+      %span.inherited= page.banner_placements.count
+    - else
+      %span= page.banner_placements.count
+  - else
+    %span.disabled= "Disabled"
+
+- content_for :page_css do
+  :sass
+    .inherited
+      font-style: italic
+      color: #999
+    .disabled
+      color: #ccc

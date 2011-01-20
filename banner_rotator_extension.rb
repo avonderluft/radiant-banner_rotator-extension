@@ -11,6 +11,8 @@ class BannerRotatorExtension < Radiant::Extension
       add_item "Banners", '/admin/banners', :after => "Pages"
     end
     admin.pages.edit.add :extended_metadata, 'show_banner_meta', :before => 'published_date'
+    admin.page.index.add :node, 'banners_column', :before => 'status_column'
+    admin.page.index.add :sitemap_head, 'banners_column_header', :before => 'status_column_header'
     
     Radiant::AdminUI.class_eval do
       attr_accessor :banner

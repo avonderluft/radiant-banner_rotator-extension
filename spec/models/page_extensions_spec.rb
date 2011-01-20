@@ -19,6 +19,7 @@ describe "BannerRotator::PageExtensions" do
   end
   
   it "should not delete its parent's banner placements when destroyed" do
+    pages(:home).should == pages(:radius).parent
     lambda { pages(:radius).destroy }.should_not change(BannerPlacement, :count)
   end
 end
