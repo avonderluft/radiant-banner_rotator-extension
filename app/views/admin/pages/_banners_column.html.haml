@@ -8,11 +8,3 @@
       %span= page.banner_placements.count
   - else
     %span.disabled= "Disabled"
-
-- content_for :page_css do
-  :sass
-    .inherited
-      font-style: italic
-      color: #999
-    .disabled
-      color: #ccc
