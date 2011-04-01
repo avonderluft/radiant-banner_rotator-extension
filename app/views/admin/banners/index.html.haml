@@ -11,8 +11,6 @@
     - @banners = Banner.find_inactive
   - when params[:sort] == 'page'
     - @banners = Banner.find_all_by_pages
-  - else
-    - @banners = Banner.find(:all, :order => 'name asc')
 
 .outset
   = render_region :top

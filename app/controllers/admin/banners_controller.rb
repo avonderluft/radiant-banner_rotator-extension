@@ -2,7 +2,7 @@ class Admin::BannersController < Admin::ResourceController
   model_class Banner
   # TODO: Find out why the banner_placements are only updated when one is added.
   # Add pagination?
-  # paginate_models :per_page => 10
+  paginate_models
   login_required
   only_allow_access_to :index, :show, :new, :create, :edit, :update, :remove, :destroy, :deactivate, :remove_all_placements!,
     :when => [:designer, :admin],
