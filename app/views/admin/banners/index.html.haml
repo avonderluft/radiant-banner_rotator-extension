@@ -72,22 +72,14 @@
 - content_for :page_css do
   :sass
     .banner_selectors
-      margin: 13px 0 0 0
+      margin: 11px 0 0 0
       height: 19px
-    table.index#banners
-      td
-        .snapshot
-          height: 40px
-          max-width: 320px
-          border: 1px solid d5f0ff
-    .banner_selectors
       ul
         list-style: none
         li
           display: inline
-          margin: 0 4px 0 0
+          font-size: 80%
         a, a:visited
-          color: black
         a:hover
           background-color: #e5f5ff
         span
@@ -95,27 +87,27 @@
           background-color: #c5dff5
     #banner_view, #new
       float: left
-      margin: -5px 0 0 10px
+      margin: -5px 0 0 90px
     #banner_sort
       float: right
-      margin: -5px 10px 0 0
+      margin: -5px 120px 0 0
     li
       a, span
         padding: 5px 5px 5px 25px
         background-position: 5px center
         background-repeat: no-repeat
-    li.label
-      font-weight: bold
-      font-size: 14px
     #all_view, #active_view, #inactive_view
       a, span
         background-image: url(/images/admin/pictures.png)
     #name_sort, #page_sort
       a, span
         background-image: url(/images/admin/text_list_numbers.png)
-    #top
-      margin: 70px 0 0 0
-
+    table.index#banners
+      td
+        .snapshot
+          height: 40px
+          max-width: 320px
+          border: 1px solid d5f0ff
     html>body
       #all_view, #active_view, #inactive_view
         a, span
