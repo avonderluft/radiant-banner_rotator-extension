@@ -1,0 +1,87 @@
+The *Banner Rotator* extension, as its name implies, enables rotating banners on pages.  Banners can be enabled and disabled for specific pages via the page-edit admin interface.  One banner can be assigned to any number of pages.  Banners are randomly selected based on weights you assign, between 1 and 10 - 1 being least likely, 10 most likely to appear.  Banner rotation is enabled for a page in the "meta" drawer on the page-edit screen.  When not directly associated with a page with banner rotator enabled, banners are inherited from the nearest ancestor page.  Banners work by specifying a background image, with optional foreground image and link.
+
+This extension does not support file uploads, and therefore should be used in concert with an asset management extension if direct file upload access is not available.
+
+h2. Usage
+
+h3. Viewing Banners
+
+The banner tab appears under *Content*, to the right of Pages.  Clicking that tab takes you to the Banners Index view.  You may filter the listed banners by showing All, Active only, or Inactive only (controls upper left).  
+
+Default sorting is in alphabetical order by name, but you may also sort by the names of the pages to which they are assigned (upper right).
+
+The default index view filter and sorting also includes pagination.
+
+h4. Index View Actions
+
+* Edit a banner - click on the banner thumbnail or Name
+* Remove a banner - click 'Remove'.  You will see a warning page advising you that deletion is permanent, and will remove the banner from all pages to which it is assigned.
+* Deactivate a banner - click 'Deactivate'.  You will see a warning page advising you that the banner will not be deleted, but it will be removed from all pages to which it is assigned.
+
+h3. Creating or Editing a Banner
+
+* To create a new banner, click the New Banner button at the lower left of the Index page.
+* To edit an existing banner, click the banner thumbnail or name.
+
+h4. Banner Fields
+
+* Required fields are _Name_ and _Background Image_
+* You may optionally add _Description_, _Foreground Image_, _Link URL_, and _Image Style_
+* You may specify the target for the link as the default '_blank' for a new window, or '_top' for the same window
+
+h3. Assigning Banners to pages
+
+Use the 'Assigned Pages' control to add a banner to specific page(s).  Assign a selection weight of 1-10 (1 is low, 10 is high).  1 is the default.  Statistically a banner with a weight of 10 will appear approximately 10 times more often than a banner with a weight of one.
+
+h4. Enabling Banner rotation on a page
+
+* On the Page edit screen for a specific page, check the "Enable Banner Rotator" checkbox.
+* If banners have been assigned to this page, their thumbnails will be displayed after "Banners Assigned".  Each thumbnail is also a link to the Edit page for that banner.
+* If no banners have been assigned, then thumbnails from the inherited banners will be displayed after "Banners Inherited".  These are also link to banner-edit.
+
+h4. Disabling Banner rotation
+
+* Simply uncheck the "Enable Banner Rotation" checkbox on the Page edit screen.
+* You can leave all existing banner assignments in place.  If you re-enable banner rotation, these will all be in the rotation again.
+
+h3. Using the Radius tags to display your banners
+
+In your Layout, Snippet, or Page, you use the <r:banner> Radius tags to set up your rotating banners.  
+
+Within the @<r:banner>@ tag, you do need to prefix your tags, e.g. you can use @<r:background_image />@ instead of @<r:banner:background_image />@
+
+h4. Simple banner rotator using a link
+
+Clicking on the banner links to the link_url defined with the banner.
+
+<pre><code>
+<div class="banner_rotator"
+  <r:banner>
+    <a href='<r:link_url />'> <img src='<r:background_image />'/> </a>
+  </r:banner>
+</div>
+</code></pre>
+
+
+h4. Banner rotator using a link, which will display banners with foreground image, if present
+
+Note the that image style is applied to the foreground image.  This way you position the foreground image relative to the background image, e.g. by defining the banner with image style "left: 100px" the foreground image is superimposed 100 pixel from the left border of the background image.
+
+<pre><code>
+<div class="banner_rotator"
+  <r:banner>
+    <r:if_foreground_image>
+      <div style="background: url(<r:background_image />) top left no-repeat;">  
+        <a href="<r:link_url />" target="<r:link_target/>">
+          <img src="<r:foreground_image />" alt="" style="<r:image_style />" />
+        </a>
+      </div>
+    </r:if_foreground_image>
+    <r:unless_foreground_image>
+      <a href="<r:link_url />" target="<r:link_target/>" >
+        <img src="<r:background_image />" alt="" />
+      </a>
+    </r:unless_foreground_image>
+  </r:banner>
+</div>
+</code></pre>
