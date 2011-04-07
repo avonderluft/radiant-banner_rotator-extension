@@ -1,0 +1,28 @@
+.banner_info
+  = check_box 'page', 'show_banner'
+  = t('banner_rotator.enable_banner_rotator')
+  %label
+    = t('banner_rotator.banners_assigned') + ":"
+    - unless @page.banners.blank?
+      - @page.banners.each do |banner|
+        = link_to image_tag(banner.background_image, :class=>"thumb"), edit_admin_banner_path(banner), {:title => "#{banner.name}"}
+    - else
+      = t('banner_rotator.no_banners')
+      %label
+        = t('banner_rotator.banners_inherited') + ":"
+        - if @page.banners_inherited?
+          - @page.banner_placements.each do |placement|
+            = link_to image_tag(placement.banner.background_image, :class=>"thumb"), edit_admin_banner_path(placement.banner), {:title => "#{placement.banner.name}"}
+        - else
+          = t('banner_rotator.no_banners')
+
+- content_for :page_css do
+  :sass
+    .banner_info
+      width: 100%
+      padding: 0 0 6px 0
+      label
+        margin-left: 18px
+    .thumb
+      height: 24px
+      padding: 3px 2px  

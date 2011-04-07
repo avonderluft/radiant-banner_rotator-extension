@@ -24,31 +24,31 @@
             ~ f.text_field :description, :class => 'textbox'
         %p
           %label
-            %span.inline_label= t('background_image')
+            %span.inline_label= t('banner_rotator.background_image')
             = f.text_field :background_image, :class => 'textbox'
         %p
           %label
-            %span.inline_label= t('foreground_image')
+            %span.inline_label= t('banner_rotator.foreground_image')
             = f.text_field :foreground_image, :class => 'textbox'
         %p
           %label
-            %span.inline_label= t('link_url')
+            %span.inline_label= t('banner_rotator.link_url')
             = f.text_field :link_url, :class => 'textbox'
         %p
           %label
-            %span.inline_label=t('target')
+            %span.inline_label=t('banner_rotator.target')
             = f.select :link_target, ['_top', '_blank']
-            = t('text.banners.target_instruction')
+            = t('banner_rotator.text.banners.target_instruction')
         %p
           %label
-            %span.inline_label= t('image_style')
+            %span.inline_label= t('banner_rotator.image_style')
             ~ f.text_field :image_style, :class => 'textbox activate'
         %hr
         %div
           %p
             %label
-              %span.inline_label=t('assigned_pages')
-              =link_to image('plus') + " " + t('add_page'), '#', :id => 'add-page-link', :class => 'action'
+              %span.inline_label=t('banner_rotator.assigned_pages')
+              =link_to image('plus') + " " + t('banner_rotator.add_page'), '#', :id => 'add-page-link', :class => 'action'
           - @banner.placements.each do |p|
             %p
               = select_tag "banner[placements][][page_id]", options_for_select(pages_for_select, p['page_id'])

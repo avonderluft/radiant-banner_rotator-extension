@@ -1,29 +1,34 @@
 ---
 en:
-  add_page: "Add Page"
-  assigned_pages: "Assigned Pages"
-  background_image: "Background Image"
-  banner: "Banner"
-  banner_name: "Banner Name"
-  banner_rotator: "Banner Rotator"
-  banners: "Banners"
-  deactivate: "Deactivate"
-  deactivate_banner: "Deactivate Banner"
-  delete_banner: "Delete Banner"
-  edit_banner: "Edit Banner"
-  enable_banner_rotator: "Enable Banner Rotator"
-  foreground_image: "Foreground Image"
-  image_style: "Image Style (CSS)"
-  link_url: "Link URL"
-  new_banner: "New Banner"
-  no_banners: "No Banners"
-  remove_banner: "Remove Banner"
-  show_active_only: "Show Active Only"
-  show_inactive_only: "Show Inactive Only"
-  sort_by: "Sort By"
-  text:
-    banners:
-      deactivate_warning: 'Are you sure you want to <strong class="warning">deactivate</strong> the following banner, which will not delete it, but will remove it from all pages?'
-      remove_warning: 'Are you sure you want to <strong class="warning">permanently remove</strong> the following banner?'
-      target_instruction: "(use '_top' for same window, or '_blank' for new window)"
-  target: "Target window"
+  banner_rotator:
+    add_page: "Add Page"
+    assigned_pages: "Assigned Pages"
+    background_image: "Background Image"
+    banner: "Banner"
+    banner_name: "Banner Name"
+    banner_rotator: "Banner Rotator"
+    banners: "Banners"
+    banners_assigned: "Banners Assigned"
+    banners_inherited: "Banners Inherited"
+    deactivate: "Deactivate"
+    deactivate_banner: "Deactivate Banner"
+    delete_banner: "Delete Banner"
+    edit: "Edit"
+    edit_banner: "Edit Banner"
+    enable_banner_rotator: "Enable Banner Rotator"
+    foreground_image: "Foreground Image"
+    image_style: "Image Style (CSS)"
+    link_url: "Link URL"
+    new_banner: "New Banner"
+    no_banners: "none"
+    remove_banner: "Remove Banner"
+    show_all: "Show all"
+    show_active_only: "Show Active Only"
+    show_inactive_only: "Show Inactive Only"
+    sort_by: "Sort By"
+    text:
+      banners:
+        deactivate_warning: 'Are you sure you want to <strong class="warning">deactivate</strong> the following banner, which will not delete it, but will remove it from all pages?'
+        remove_warning: 'Are you sure you want to <strong class="warning">permanently remove</strong> the following banner, which will also remove it from all pages to which it is assigned?'
+        target_instruction: "(use '_top' for same window, or '_blank' for new window)"
+    target: "Target window"

@@ -1,6 +1,6 @@
 - include_javascript 'admin/tablekit'
 
-- @page_title = t('banners') + ' - ' + default_page_title
+- @page_title = t('banner_rotator.banners') + ' - ' + default_page_title
 
 - case true
   - when params[:view] == 'active' && params[:sort] == 'page'
@@ -16,22 +16,22 @@
   = render_region :top
   .banner_selectors
     %ul#banner_view
-      %li#all_view= link_or_span_unless_current(params, "#{t('show_all')} (#{Banner.total_count})", admin_banners_path, :onclick => "Cookies.set('banner_view', 'all');", :param => 'view')
-      %li#active_view= link_or_span_unless_current(params, "#{t('show_active_only')} (#{Banner.total_active_count})", admin_banners_path(:view => 'active'), :onclick => "Cookies.set('banner_view', 'active');", :param => 'view', :id => 'active')
-      %li#inactive_view= link_or_span_unless_current(params, "#{t('show_inactive_only')} (#{Banner.total_inactive_count})", admin_banners_path(:view => 'inactive'), :onclick => "Cookies.set('banner_view', 'inactive');", :param => 'view', :id => 'inactive')
+      %li#all_view= link_or_span_unless_current(params, "#{t('banner_rotator.show_all')} (#{Banner.total_count})", admin_banners_path, :onclick => "Cookies.set('banner_rotator.banner_view', 'all');", :param => 'view')
+      %li#active_view= link_or_span_unless_current(params, "#{t('banner_rotator.show_active_only')} (#{Banner.total_active_count})", admin_banners_path(:view => 'active'), :onclick => "Cookies.set('banner_rotator.banner_view', 'active');", :param => 'view', :id => 'active')
+      %li#inactive_view= link_or_span_unless_current(params, "#{t('banner_rotator.show_inactive_only')} (#{Banner.total_inactive_count})", admin_banners_path(:view => 'inactive'), :onclick => "Cookies.set('banner_rotator.banner_view', 'inactive');", :param => 'view', :id => 'inactive')
     - unless params[:view] == 'inactive'
       %ul#banner_sort
-        %li.label= t('sort_by') + ":"
-        %li#name_sort= link_or_span_unless_current(params, t('banner_name'), admin_banners_path, :onclick => "Cookies.set('banner_sort', 'name');", :param => 'sort', :id => 'name')
-        %li#page_sort= link_or_span_unless_current(params, t('assigned_pages'), admin_banners_path(:sort => 'page'), :onclick => "Cookies.set('banner_sort', 'page');", :param => 'sort', :id => 'page')
+        %li.label= t('banner_rotator.sort_by') + ":"
+        %li#name_sort= link_or_span_unless_current(params, t('banner_rotator.banner_name'), admin_banners_path, :onclick => "Cookies.set('banner_rotator.banner_sort', 'name');", :param => 'sort', :id => 'name')
+        %li#page_sort= link_or_span_unless_current(params, t('banner_rotator.assigned_pages'), admin_banners_path(:sort => 'page'), :onclick => "Cookies.set('banner_rotator.banner_sort', 'page');", :param => 'sort', :id => 'page')
   %table.index#banners
     %thead
       %tr
         - render_region :thead do |thead|
           - thead.title_header do
-            %th.banner{:colspan => 2}= t('banner')
+            %th.banner{:colspan => 2}= t('banner_rotator.banner')
           - thead.pages_header do
-            %th.pages= t('assigned_pages')
+            %th.pages= t('banner_rotator.assigned_pages')
           - thead.actions_header do
             %th.actions{:style=>"width:9em"}= t('modify')
     %tbody
@@ -42,14 +42,14 @@
               - tbody.title_cell do
                 %td.preview
                   %a{:href => edit_admin_banner_url(banner)}
-                    %img.snapshot{:src => banner.background_image, :alt => "#{banner.name} #{t('banner')}", :title => "#{t('edit')} #{banner.name} #{t('banner')}"}
+                    %img.snapshot{:src => banner.background_image, :alt => "#{banner.name} #{t('banner_rotator.banner')}", :title => "#{t('banner_rotator.edit')} #{banner.name} #{t('banner_rotator.banner')}"}
                 %td.name
                   = link_to banner.name, edit_admin_banner_url(banner)
               - tbody.pages_cell do
                 %td.pages
                   - unless banner.pages.blank?
                     - banner.pages.each do |page|
-                      %a{:href => edit_admin_page_url(page), :title => "#{t('edit')} #{page.title} #{t('page')}"}= page.breadcrumb
+                      %a{:href => edit_admin_page_url(page), :title => "#{t('banner_rotator.edit')} #{page.title} #{t('banner_rotator.page')}"}= page.breadcrumb
                       &nbsp;
                   - else
                     (none)
@@ -57,17 +57,17 @@
                 %td.actions
                   = link_to image('minus') + ' ' + t('remove'), remove_admin_banner_url(banner), :class => "action"
                   - if banner.active?
-                    =link_to image('deactivate') + ' ' + t('deactivate'), deactivate_admin_banner_url(banner), :class => 'action'
+                    =link_to image('deactivate') + ' ' + t('banner_rotator.deactivate'), deactivate_admin_banner_url(banner), :class => 'action'
       - else
         %tr
-          %td.empty{:colspan => admin.banner.index.tbody.length + 1}= t('no_banners')
+          %td.empty{:colspan => admin.banner.index.tbody.length + 1}= t('banner_rotator.no_banners')
 
 - render_region :bottom do |bottom|
   - bottom.new_button do
     #actions
       = pagination_for(@banners)
       %ul
-        %li= link_to image('plus') + " " + t('new_banner'), new_admin_banner_url
+        %li= link_to image('plus') + " " + t('banner_rotator.new_banner'), new_admin_banner_url
 
 - content_for :page_css do
   :sass
