@@ -1,8 +1,8 @@
 class BannerRotatorExtension < Radiant::Extension
   
-  version "0.9"
+  version "#{File.read(File.expand_path(File.dirname(__FILE__)) + '/VERSION')}"
   description "Allows addition and independent management of rotating banners on pages."
-  url "https://github.com/avonderluft/radiant-banner-rotator-extension"
+  url "https://github.com/avonderluft/radiant-banner_rotator-extension"
 
   def activate
     Page.send :include, BannerRotator::PageExtensions
@@ -10,9 +10,9 @@ class BannerRotatorExtension < Radiant::Extension
     tab "Content" do
       add_item "Banners", '/admin/banners', :after => "Pages"
     end
-    admin.pages.edit.add :extended_metadata, 'show_banner_meta', :before => 'published_date'
     admin.page.index.add :node, 'banners_column', :before => 'status_column'
     admin.page.index.add :sitemap_head, 'banners_column_header', :before => 'status_column_header'
+    admin.pages.edit.add :form, 'banner_info', :after => 'edit_extended_metadata'
     
     Radiant::AdminUI.class_eval do
       attr_accessor :banner
