@@ -13,6 +13,40 @@ h2. History
 * 2009-02-07 - 0.7 compatible
 * 2008-10-01 - First release
 
+h2. Installation
+
+h3. From the Radiant Extension Registry
+
+# From your RAILS_ROOT run:
+<pre>script/extension install banner_rotator</pre>
+# Restart your app
+NOTE: In some earlier versions of Radiant, the migrations may not run, and the assets may not be copied and you may therefore need to run:
+<pre>rake radiant:extensions:banner_rotator:migrate
+rake radiant:extensions:banner_rotator:update</pre>
+
+h3. From Github
+
+# From your RAILS_ROOT run:
+<pre>cd vendor/extensions
+git clone git://github.com/avonderluft/radiant-banner_rotator-extension.git ./banner_rotator
+cd ../../
+rake radiant:extensions:banner_rotator:migrate
+rake radiant:extensions:banner_rotator:update
+</pre>
+# Restart your app
+
+h3. Using the gem
+
+# Install the gem
+<pre>gem install radiant-banner_rotator-extension</pre>
+# Update your Radiant config:  add to environment.rb with other gem.configs
+<pre>config.gem 'radiant-banner_rotator-extension', :lib => false</pre>
+# Run database migrations
+<pre>rake db:migrate:extensions</pre>
+# Copy assets
+<pre>rake radiant:extensions:update_all</pre>
+# Restart your app
+
 h2. Usage
 
 See HELP doc
