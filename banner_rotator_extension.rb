@@ -22,7 +22,7 @@ class BannerRotatorExtension < Radiant::Extension
   end
 
   def load_default_banner_regions
-    returning OpenStruct.new do |banner|
+    OpenStruct.new.tap do |banner|
       banner.edit = Radiant::AdminUI::RegionSet.new do |edit|
         edit.main.concat %w{edit_header edit_form}
         edit.form.concat %w{edit_title edit_content}
