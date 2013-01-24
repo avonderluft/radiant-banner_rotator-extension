@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{radiant-banner_rotator-extension}
-  s.version = "1.0.0"
+  s.name = "radiant-banner_rotator-extension"
+  s.version = "1.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Andrew vonderLuft", "Sean Cribbs"]
-  s.date = %q{2011-04-07}
-  s.description = %q{Allows addition and independent management of rotating banners on pages.}
-  s.email = %q{avonderluft@avlux.net}
+  s.date = "2013-01-24"
+  s.description = "Allows addition and independent management of rotating banners on pages."
+  s.email = "avonderluft@avlux.net"
   s.extra_rdoc_files = [
     "README.textile"
   ]
@@ -49,6 +49,7 @@ Gem::Specification.new do |s|
     "public/images/admin/pictures.png",
     "public/images/admin/text_list_numbers.png",
     "public/javascripts/lowpro.js",
+    "radiant-banner_rotator-extension.gemspec",
     "spec/controllers/admin_banners_controller_spec.rb",
     "spec/datasets/banners_dataset.rb",
     "spec/helpers/admin/banners_helper_spec.rb",
@@ -59,26 +60,15 @@ Gem::Specification.new do |s|
     "spec/spec.opts",
     "spec/spec_helper.rb"
   ]
-  s.homepage = %q{https://github.com/avonderluft/radiant-banner_rotator-extension}
+  s.homepage = "https://github.com/avonderluft/radiant-banner_rotator-extension"
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.6}
-  s.summary = %q{Banner Rotator Extension for Radiant CMS}
-  s.test_files = [
-    "spec/controllers/admin_banners_controller_spec.rb",
-    "spec/datasets/banners_dataset.rb",
-    "spec/helpers/admin/banners_helper_spec.rb",
-    "spec/models/banner_placement_spec.rb",
-    "spec/models/banner_spec.rb",
-    "spec/models/page_extensions_spec.rb",
-    "spec/models/tags_spec.rb",
-    "spec/spec_helper.rb"
-  ]
+  s.rubygems_version = "1.8.24"
+  s.summary = "Banner Rotator Extension for Radiant CMS"
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<radiant>, [">= 0.9.1"])
     else
       s.add_dependency(%q<radiant>, [">= 0.9.1"])
