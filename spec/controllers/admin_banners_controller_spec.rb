@@ -1,4 +1,5 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+#require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 require_dependency 'admin/banners_controller'
 class Admin::BannersController < Admin::ResourceController; def rescue_action(e); raise e; end end
 
