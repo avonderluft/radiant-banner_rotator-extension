@@ -11,11 +11,14 @@ module Admin::BannersHelper
   def pages_for_select
     @pages_for_select ||= begin
       collect_children = lambda do |page|
-        [page] + (page.children.any? ? page.children.map(&collect_children) : [])
+        if page.show_banner
+          [page] + (page.children.any? ? page.children.map(&collect_children) : [])
+        else
+          (page.children.any? ? page.children.map(&collect_children) : [])
+        end
       end
       collect_children[Page.find_by_parent_id(nil)].flatten.uniq.map do |page|
-        name = page.parent ? "#{'--' * page.ancestors.size} #{page.title}" : page.title
-        [name, page.id]
+        ["#{page.path} - '#{page.title}'", page.id]
       end
     end
   end
